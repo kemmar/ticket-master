@@ -1,14 +1,12 @@
 import styles from './_App.scss';
 
 import React from 'react';
-import AppActions from '../../actions/AppActions';
-import ItemsStore from '../../stores/ItemsStore';
+import TicketStore from '../../stores/TicketStore';
 import Body from '../Body/Body';
-import Footer from '../Footer/Footer';
 
 function getAppState() {
   return {
-    items: ItemsStore.getAll()
+    items: TicketStore.getAll()
   };
 }
 
@@ -17,12 +15,11 @@ export default class App extends React.Component {
   state = getAppState()
 
   componentDidMount() {
-    ItemsStore.addChangeListener(this.onChange);
-    AppActions.getItems();
+    TicketStore.addChangeListener(this.onChange);
   }
 
   componentWillUnmount() {
-    ItemsStore.removeChangeListener(this.onChange);
+    TicketStore.removeChangeListener(this.onChange);
   }
 
   onChange = () => {
@@ -32,8 +29,8 @@ export default class App extends React.Component {
   render() {
     return (
       <div className={styles.app}>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css" />
         <Body items={this.state.items} />
-        <Footer />
       </div>
     );
   }

@@ -1,12 +1,14 @@
 import BaseStore from './BaseStore';
 import AppDispatcher from '../dispatcher/AppDispatcher';
+import TicketApi from '../service/TicketApi'
 
 import {
   ITEMS_UPDATED,
-  ITEMS_GET_SUCCESS
+  ITEMS_GET_SUCCESS,
+  GET_ITEMS
 } from '../constants/AppConstants';
 
-class ItemsStore extends BaseStore {
+class TicketStore extends BaseStore {
 
   emitChange() {
     this.emit(ITEMS_UPDATED);
@@ -21,12 +23,15 @@ class ItemsStore extends BaseStore {
   }
 }
 
-let store = new ItemsStore();
+let store = new TicketStore();
 
 AppDispatcher.register((action) => {
   switch(action.actionType) {
-    case ITEMS_GET_SUCCESS:
-      store.setAll(action.items);
+    case GET_ITEMS:
+      TicketApi.findTicket({
+        search: action.search,
+        ticketStore: store
+      });
       break;
     default:
   }
